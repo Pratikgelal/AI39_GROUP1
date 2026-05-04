@@ -110,20 +110,14 @@
                 <h2>Join VitaPulse</h2>
                 <p class="subtitle">Start Your Journey to Better Health Today</p>
 
-                <form action="#">
+                <form action="#" id="registerForm">
                     <div class="form-row">
+                        
                         <div class="form-group">
-                            <label for="first-name">FIRST NAME</label>
+                            <label for="last-name">Username</label>
                             <div class="input-wrapper">
                                 <i class="fa-regular fa-user input-icon"></i>
-                                <input type="text" id="first-name" placeholder="Alex" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="last-name">LAST NAME</label>
-                            <div class="input-wrapper">
-                                <i class="fa-regular fa-user input-icon"></i>
-                                <input type="text" id="last-name" placeholder="Rivera" required>
+                                <input type="text" id="username" placeholder="Username" required>
                             </div>
                         </div>
                     </div>
@@ -132,7 +126,7 @@
                         <label for="reg-email">EMAIL ADDRESS</label>
                         <div class="input-wrapper">
                             <i class="fa-regular fa-envelope input-icon"></i>
-                            <input type="email" id="reg-email" placeholder="alex@example.com" required>
+                            <input type="email" id="regEmail" placeholder="alex@example.com" required>
                         </div>
                     </div>
 
@@ -140,7 +134,7 @@
                         <label for="reg-password">PASSWORD</label>
                         <div class="input-wrapper">
                             <i class="fa-solid fa-lock input-icon"></i>
-                            <input type="password" id="reg-password" placeholder="Create a strong password" required>
+                            <input type="password" id="regPassword" placeholder="Create a strong password" required>
                             <i class="fa-regular fa-eye toggle-password" id="togglePasswordReg"></i>
                         </div>
                     </div>
@@ -173,7 +167,9 @@
                     <a href="#" class="social-btn">
                         <i class="fa-brands fa-google"></i> Google
                     </a>
-                   
+                    <a href="#" class="social-btn">
+                        <i class="fa-brands fa-facebook"></i> Facebook
+                    </a>
                 </div>
 
                 <p class="signup-text">Already have an account? <a href="login.html" class="orange-link">Sign In</a></p>
