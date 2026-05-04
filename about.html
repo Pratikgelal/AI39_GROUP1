@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About VitaPulse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Base Resets */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0b0c10;
+            color: #c5c6c7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Top Navigation Header */
+        .header-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(11, 12, 16, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #1c1e24;
+            z-index: 1000;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+            transition: opacity 0.2s ease;
+        }
+
+        .logo-link:hover {
+            opacity: 0.85;
+        }
+
+        .nav-logo {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        .brand-text {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .brand-text span {
+            color: #ffb703;
+            /* Matches highlight text color */
+        }
+
+        /* Main Container Adjustment to account for fixed header */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 60px 20px;
+            /* Top padding ensures content starts below nav */
+        }
+
+        /* Adjust subsequent sections spacing since first section uses top padding */
+        .mission-features-section .container,
+        .team-section .container,
+        .built-by-section .container {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        /* Typography & Headings */
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #8b949e;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .sub-heading {
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-bottom: 25px;
+        }
+
+        .sub-heading.centered {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .highlight-text {
+            color: #ffb703;
+        }
+
+        /* What We Do Section Layout */
+        .what-we-do-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .text-content p {
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            color: #9da5b1;
+        }
+
+        .image-content {
+            display: flex;
+            justify-content: center;
+        }
+
+        .about-img {
+            width: 100%;
+            max-width: 520px;
+            border-radius: 16px;
+            border: 1px solid #33353b;
+            object-fit: cover;
+        }
+
+        /* Mission Box */
+        .mission-box {
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto 90px auto;
+        }
+
+        .mission-box p {
+            font-size: 1.15rem;
+            color: #c5c6c7;
+        }
+
+        /* Features Cards Layout */
+        .features-wrapper {
+            margin-bottom: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background-color: #14161d;
+            border-radius: 14px;
+            padding: 30px 25px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card h3 {
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: #8b949e;
+            font-size: 0.95rem;
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            margin-bottom: 18px;
+            display: flex;
+        }
+
+        /* Feature Borders & Accents based on image gradients */
+        .feature-card.bmi {
+            border: 1px solid rgba(255, 183, 3, 0.4);
+        }
+
+        .feature-card.bmi .card-icon {
+            color: #ffb703;
+        }
+
+        .feature-card.calorie {
+            border: 1px solid rgba(42, 157, 143, 0.4);
+        }
+
+        .feature-card.calorie .card-icon {
+            color: #2a9d8f;
+        }
+
+        .feature-card.meal {
+            border: 1px solid rgba(231, 111, 81, 0.4);
+        }
+
+        .feature-card.meal .card-icon {
+            color: #e76f51;
+        }
+
+        .feature-card.workout {
+            border: 1px solid rgba(69, 123, 157, 0.4);
+        }
+
+        .feature-card.workout .card-icon {
+            color: #457b9d;
+        }
+
+        /* Team Section Styling */
+        .team-section {
+            background-color: #0b0c10;
+            padding-bottom: 60px;
+        }
+
+        .team-icon-header {
+            background: #ffb703;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px auto;
+        }
+
+        .team-icon-header i {
+            color: #0b0c10;
+            font-size: 1.3rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .team-card {
+            background-color: #111318;
+            border: 1px solid #1c1e24;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, border 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: #33353b;
+        }
+
+        .team-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 25px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #1c1e24;
+            border: 3px solid transparent;
+        }
+
+        .team-avatar i {
+            font-size: 2.2rem;
+        }
+
+        /* Team Avatar Glowing Accents */
+        .team-avatar.purple {
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .team-avatar.purple i {
+            color: #a855f7;
+        }
+
+        .team-avatar.orange {
+            border-color: #f59e0b;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .team-avatar.orange i {
+            color: #f59e0b;
+        }
+
+        .team-avatar.blue {
+            border-color: #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .team-avatar.blue i {
+            color: #3b82f6;
+        }
+
+        .team-avatar.pink {
+            border-color: #ec4899;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+        }
+
+        .team-avatar.pink i {
+            color: #ec4899;
+        }
+
+        .team-avatar.green {
+            border-color: #10b981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .team-avatar.green i {
+            color: #10b981;
+        }
+
+        .team-card h3 {
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .team-card .role {
+            font-size: 0.95rem;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .spark-line {
+            border-top: 1px solid #282b35;
+            width: 60px;
+            margin: 0 auto;
+            padding-top: 8px;
+        }
+
+        .spark {
+            color: #ffd166;
+            font-size: 0.8rem;
+        }
+
+        /* Built By Developers / Footer Content */
+        .built-by-section {
+            background-color: #0b0c10;
+            padding-bottom: 80px;
+        }
+
+        .footer-desc {
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            color: #9da5b1;
+            font-size: 1.05rem;
+        }
+
+        .contact-box {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-box p {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 1px solid #ffb703;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .contact-box a {
+            color: #ffb703;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .contact-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Grid */
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 15px 20px;
+            }
+
+            .brand-text {
+                font-size: 1.2rem;
+            }
+
+            .what-we-do-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header-nav">
+        <a href="index.html" class="logo-link">
+            <img src="Vita pulse.png" alt="Logo" class="nav-logo">
+            <span class="brand-text">Vita<span>Pulse</span></span>
+        </a>
+    </header>
+
+    <section class="about-section">
+        <div class="container">
+            <h1 class="section-title">About VitaPulse</h1>
+            <p class="section-subtitle">Empowering your fitness journey through smart tracking and personalised insights
+            </p>
+
+            <div class="what-we-do-grid">
+                <div class="text-content">
+                    <h2 class="sub-heading">What We Do</h2>
+                    <p>VitaPulse is a comprehensive fitness and health tracking platform designed to help you achieve
+                        your wellness goals through intelligent tools and personalized insights.</p>
+                    <p>Our platform combines cutting-edge technology with proven fitness science to deliver smart
+                        recommendations based on your unique body metrics, goals, and activity levels.</p>
+                    <p>Whether you're tracking your BMI, monitoring calorie intake, planning your macros, or following
+                        structured workout routines, VitaPulse provides the tools you need to stay consistent and see
+                        real results.</p>
+                </div>
+                <div class="image-content">
+                    <img src="scrum.png" alt="Fitness Training" class="about-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-features-section">
+        <div class="container">
+            <div class="mission-box">
+                <h2 class="sub-heading">Our Mission</h2>
+                <p>To help individuals build a healthier lifestyle through intelligent fitness tools and consistent
+                    tracking. We believe that with the right guidance and data-driven insights, anyone can transform
+                    their health and achieve their fitness goals.</p>
+            </div>
+
+            <div class="features-wrapper">
+                <h2 class="sub-heading centered">Features That Make a Difference</h2>
+                <p class="section-subtitle">Everything you need to track, monitor, and improve your fitness journey</p>
+
+                <div class="features-grid">
+                    <div class="feature-card bmi">
+                        <div class="card-icon"><i class="fa-solid fa-bullseye"></i></div>
+                        <h3>BMI Tracking</h3>
+                        <p>Calculate and monitor your Body Mass Index with personalized recommendations</p>
+                    </div>
+
+                    <div class="feature-card calorie">
+                        <div class="card-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                        <h3>Calorie System</h3>
+                        <p>Smart calorie tracking based on your goals and activity level</p>
+                    </div>
+
+                    <div class="feature-card meal">
+                        <div class="card-icon"><i class="fa-regular fa-heart"></i></div>
+                        <h3>Meal Tracking</h3>
+                        <p>Log your daily nutrition and hit your macro targets consistently</p>
+                    </div>
+
+                    <div class="feature-card workout">
+                        <div class="card-icon"><i class="fa-solid fa-dumbbell"></i></div>
+                        <h3>Workout Plans</h3>
+                        <p>7-day structured workout routines tailored to your fitness level</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="container">
+            <div class="team-icon-header">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <h2 class="section-title">Meet the <span class="highlight-text">Team</span></h2>
+            <p class="section-subtitle">Passionate individuals building the future of health and wellness</p>
+
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar purple">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3>Yasif Ansari</h3>
+                    <p class="role">Scrum Master</p>
+                    <div class="spark-line"><i class="fa-solid fa-bolt spark"></i></div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar orange">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3>Pratik Gelal</h3>
+                    <p class="role">Developer</p>
+                    <div class="spark-line"><i class="fa-solid fa-bolt spark"></i></div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar blue">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3>Shreeyaas Maharjan</h3>
+                    <p class="role">Developer</p>
+                    <div class="spark-line"><i class="fa-solid fa-bolt spark"></i></div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar pink">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3>Princess Bhandari</h3>
+                    <p class="role">Developer</p>
+                    <div class="spark-line"><i class="fa-solid fa-bolt spark"></i></div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar orange">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3>Saksham Shrestha</h3>
+                    <p class="role">Developer</p>
+                    <div class="spark-line"><i class="fa-solid fa-bolt spark"></i></div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar green">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3>Kritagya Shrestha</h3>
+                    <p class="role">Developer</p>
+                    <div class="spark-line"><i class="fa-solid fa-bolt spark"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="built-by-section">
+        <div class="container">
+            <h2 class="sub-heading centered">Built by Passionate Developers</h2>
+            <p class="footer-desc centered">VitaPulse is crafted with dedication by a team of developers who believe in
+                the power of technology to transform health and fitness. We're committed to building tools that make
+                tracking your wellness journey simple, effective, and motivating.</p>
+
+            <div class="contact-box">
+                <p>Contact us: <a href="mailto:vitapulsee@gmail.com">vitapulsee@gmail.com</a></p>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

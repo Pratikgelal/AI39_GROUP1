@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* RESET & VARIABLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: #141414;
+            --input-bg: #111111;
+            --accent-color: #e5b824;
+            /* Warm gold/yellow accent */
+            --text-primary: #ffffff;
+            --text-secondary: #999999;
+            --border-color: rgba(229, 184, 36, 0.25);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* MAIN CONTAINER & HEADER */
+        .contact-page-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            background: #1a1a1a;
+            border: 1px solid var(--input-border);
+            color: var(--text-secondary);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            color: var(--text-primary);
+            background: #2a2a2a;
+        }
+
+        .page-header {
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 38px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* CARD LAYOUT */
+        .contact-card {
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* LEFT SIDE: VISUALS & INFO */
+        .info-sidebar {
+            flex: 1.1;
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            padding: 40px;
+        }
+
+        .info-sidebar .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 100%);
+            z-index: 1;
+        }
+
+        .sidebar-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .sidebar-content h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar-content p {
+            color: #c5c5c5;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 35px;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-box {
+            width: 42px;
+            height: 42px;
+            background-color: rgba(229, 184, 36, 0.15);
+            border: 1px solid rgba(229, 184, 36, 0.3);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent-color);
+            font-size: 16px;
+        }
+
+        .detail-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-text .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .detail-text .value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* RIGHT SIDE: FORM */
+        .form-container {
+            flex: 1.2;
+            padding: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .contact-form h3 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .form-subtext {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-top: -14px;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-primary);
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(229, 184, 36, 0.15);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #4a4a4a;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 14px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-color);
+            color: #000;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 850px) {
+            .contact-card {
+                flex-direction: column;
+            }
+
+            .info-sidebar {
+                min-height: 350px;
+                padding: 30px;
+            }
+
+            .form-container {
+                padding: 30px;
+            }
+
+            .close-btn {
+                top: 15px;
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="contact-page-wrapper">
+        <button class="close-btn" id="closeBtn" aria-label="Close form">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <header class="page-header">
+            <h1>Contact Us</h1>
+            <p>Have a question or feedback? We'd love to hear from you.</p>
+        </header>
+
+        <div class="contact-card">
+
+            <div class="info-sidebar">
+                <div class="overlay"></div>
+                <div class="sidebar-content">
+                    <h2>Get In Touch</h2>
+                    <p>Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as
+                        possible.</p>
+
+                    <div class="contact-details">
+                        <div class="detail-item">
+                            <div class="icon-box">
+                                <i class="fa-regular fa-envelope"></i>
+                            </div>
+                            <div class="detail-text">
+                                <span class="label">Email</span>
+                                <span class="value">vitaapulsee@gmail.com</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="icon-box">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div class="detail-text">
+                                <span class="label">Location</span>
+                                <span class="value">Bhaktapur, Nepal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <form id="contactForm" class="contact-form">
+                    <h3>Contact Us</h3>
+                    <p class="form-subtext">Fill out the form below and we'll get back to you soon.</p>
+
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell us what's on your mind..."
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fa-regular fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.getElementById('contactForm');
+            const closeBtn = document.getElementById('closeBtn');
+
+            // Form submission handling
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Get input values
+                const name = document.getElementById('fullName').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                // Perform your custom action here
+                console.log('Form Submitted:', { name, email, message });
+
+                // Quick visual confirmation
+                alert(`Thanks, ${name}! Your message has been sent.`);
+                contactForm.reset();
+            });
+
+            // Close button handling
+            closeBtn.addEventListener('click', () => {
+                // You can link this to redirecting home or hiding a modal
+                console.log('Close button clicked.');
+                window.history.back();
+            });
+        });
+    </script>
+
+</body>
+
+</html>

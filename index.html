@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitaPulse - Your Journey to Wellness</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* ==========================================
+           HOME PAGE – SPECIFIC STYLES
+           All home-page-only styles are scoped here
+           so they don't bleed into login/register.
+           ========================================== */
+
+        /* ---------- CSS CUSTOM PROPERTIES ---------- */
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --bg-card-hover: #1c1c1c;
+            --accent-gold: #f5a623;
+            --accent-gold-dark: #e08c00;
+            --accent-teal: #1de9b6;
+            --text-primary: #ffffff;
+            --text-muted: #888888;
+            --text-dim: #555555;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --nav-border: rgba(245, 166, 35, 0.5);
+            --radius-card: 18px;
+            --radius-btn: 50px;
+        }
+
+        /* ---------- GLOBAL RESET FOR HOME ---------- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body.home-body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================
+           NAVBAR
+           Fixed top navigation with golden border
+           ========================================== */
+        .navbar {
+            position: fixed;
+            top: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 80px);
+            max-width: 1300px;
+            background: rgba(15, 15, 15, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--nav-border);
+            border-radius: 14px;
+            padding: 12px 28px;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Brand logo block */
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            flex-shrink: 0;
+        }
+
+        /* Small square logo icon */
+        .nav-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--accent-gold);
+        }
+
+        .nav-brand-name {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        /* Navigation links list */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex: 1;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 400;
+            padding: 7px 14px;
+            border-radius: 8px;
+            transition: background 0.2s ease, color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        /* Search bar in navbar */
+        .nav-search {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .nav-search i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .nav-search input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 8px 18px 8px 36px;
+            color: var(--text-primary);
+            font-size: 12px;
+            font-family: 'Poppins', sans-serif;
+            width: 180px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .nav-search input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .nav-search input:focus {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Right-side auth buttons group */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        /* Login button - outlined gold style */
+        .btn-login {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: transparent;
+            border: 2px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 8px 20px;
+            border-radius: var(--radius-btn);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.2s ease, color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-login:hover {
+            background: rgba(245, 166, 35, 0.1);
+        }
+
+        /* Register button - solid gold fill */
+        .btn-register {
+            display: flex;
+            align-items: center;
+            background: var(--accent-gold);
+            color: #111111;
+            padding: 9px 22px;
+            border-radius: var(--radius-btn);
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .btn-register:hover {
+            background: #f0b030;
+            transform: scale(1.03);
+        }
+
+        /* User avatar circle icon */
+        .nav-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .nav-avatar:hover {
+            background: rgba(245, 166, 35, 0.1);
+        }
+
+        /* ==========================================
+           HERO SECTION
+           Full-viewport-height area with big
+           headline + 3-card carousel
+           ========================================== */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 120px;
+            padding-bottom: 60px;
+            background: var(--bg-primary);
+            position: relative;
+        }
+
+        /* Hero headline text block */
+        .hero-title {
+            font-size: clamp(36px, 5vw, 58px);
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        /* "Wellness" word in golden colour */
+        .hero-title .highlight {
+            color: var(--accent-gold);
+        }
+
+        .hero-subtitle {
+            font-size: 15px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+
+        /* ---- CAROUSEL WRAPPER ---- */
+        .carousel-wrapper {
+            width: 100%;
+            max-width: 1300px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        /* The sliding track holding all cards */
+        .carousel-track {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Individual carousel slide card */
+        .carousel-card {
+            position: relative;
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, opacity 0.4s ease;
+            flex-shrink: 0;
+        }
+
+        /* Active/centre card – large */
+        .carousel-card.active {
+            width: 460px;
+            height: 420px;
+            opacity: 1;
+            transform: scale(1);
+            z-index: 3;
+        }
+
+        /* Side cards – smaller and dimmed */
+        .carousel-card.side {
+            width: 220px;
+            height: 380px;
+            opacity: 0.5;
+            transform: scale(0.95);
+            z-index: 1;
+        }
+
+        /* Card background image fills the whole card */
+        .carousel-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Colour tint overlay on each card (each slide has its own tint) */
+        .carousel-card .card-overlay {
+            position: absolute;
+            inset: 0;
+            opacity: 0.55;
+        }
+
+        /* Bottom caption bar on each slide */
+        .carousel-card .card-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(20, 20, 20, 0.75);
+            backdrop-filter: blur(6px);
+            padding: 18px 22px;
+            border-radius: 0 0 var(--radius-card) var(--radius-card);
+        }
+
+        .carousel-card .card-caption h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        /* Gold underline accent beneath caption title */
+        .caption-accent {
+            width: 36px;
+            height: 3px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        /* Carousel prev/next arrow buttons */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #fff;
+            font-size: 14px;
+            z-index: 10;
+            transition: background 0.2s ease;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        /* Left arrow positioned over left side-card */
+        .carousel-btn.prev {
+            left: 20px;
+        }
+
+        /* Right arrow positioned over right side-card */
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        /* CTA buttons below carousel */
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            margin-top: 38px;
+            align-items: center;
+        }
+
+        /* Primary gold CTA */
+        .btn-get-started {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent-gold);
+            color: #111;
+            padding: 14px 30px;
+            border-radius: var(--radius-btn);
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.2s ease, transform 0.15s ease;
+            box-shadow: 0 6px 24px rgba(245, 166, 35, 0.35);
+        }
+
+        .btn-get-started:hover {
+            background: #f0b030;
+            transform: translateY(-2px);
+        }
+
+        /* Secondary outlined CTA */
+        .btn-learn-more {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--text-primary);
+            padding: 13px 28px;
+            border-radius: var(--radius-btn);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .btn-learn-more:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        /* Carousel dot indicator row */
+        .carousel-dots {
+            display: flex;
+            gap: 7px;
+            margin-top: 28px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: background 0.3s ease, width 0.3s ease;
+        }
+
+        /* Active dot is wider and golden */
+        .dot.active {
+            background: var(--accent-gold);
+            width: 28px;
+            border-radius: 4px;
+        }
+
+        /* ==========================================
+           CATEGORY CARDS SECTION
+           Two large image cards: Fitness & Health
+           ========================================== */
+        .category-section {
+            padding: 80px 60px;
+            background: #000000;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Each category card is a tall image with overlay text */
+        .category-card {
+            position: relative;
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            height: 440px;
+            cursor: pointer;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.04);
+        }
+
+        /* Dark gradient overlay at the bottom of each card */
+        .category-card .cat-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 55%);
+        }
+
+        /* Text block at bottom of category card */
+        .cat-content {
+            position: absolute;
+            bottom: 28px;
+            left: 28px;
+            right: 28px;
+        }
+
+        /* Icon above the category title */
+        .cat-icon {
+            font-size: 26px;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .cat-content h2 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .cat-content p {
+            font-size: 13.5px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.5;
+            max-width: 340px;
+        }
+
+        /* ==========================================
+           TEAM SECTION
+           6-member grid with avatar circles
+           ========================================== */
+        .team-section {
+            padding: 90px 60px;
+            background: var(--bg-primary);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative floating dots in background */
+        .team-section::before {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(245, 166, 35, 0.04) 0%, transparent 70%);
+            top: 0;
+            left: 10%;
+            pointer-events: none;
+        }
+
+        .team-section::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(29, 233, 182, 0.04) 0%, transparent 70%);
+            bottom: 0;
+            right: 10%;
+            pointer-events: none;
+        }
+
+        /* Section heading: "Meet the Team" */
+        .section-heading {
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        /* "Team" word in golden colour */
+        .section-heading .gold {
+            color: var(--accent-gold);
+        }
+
+        .section-subheading {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 55px;
+        }
+
+        /* 3-column, 2-row grid for the 6 team cards */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            max-width: 1050px;
+            margin: 0 auto 50px;
+        }
+
+        /* Individual team member card */
+        .team-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-card);
+            padding: 40px 24px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .team-card:hover {
+            border-color: rgba(245, 166, 35, 0.2);
+            transform: translateY(-4px);
+        }
+
+        /* Circular avatar with coloured gradient border */
+        .team-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--text-primary);
+            border: 3px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        /* Gradient ring around avatar – created via pseudo-element */
+        .team-avatar::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            padding: 3px;
+            background: var(--avatar-gradient, conic-gradient(#f5a623, #f5a623));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        /* Dark fill inside the avatar ring */
+        .team-avatar .avatar-inner {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        /* Each member gets a unique gradient ring colour */
+        .avatar-purple {
+            --avatar-gradient: conic-gradient(#9333ea, #c084fc, #9333ea);
+        }
+
+        .avatar-gold {
+            --avatar-gradient: conic-gradient(#f5a623, #fde68a, #f5a623);
+        }
+
+        .avatar-blue {
+            --avatar-gradient: conic-gradient(#3b82f6, #93c5fd, #3b82f6);
+        }
+
+        .avatar-pink {
+            --avatar-gradient: conic-gradient(#ec4899, #f9a8d4, #ec4899);
+        }
+
+        .avatar-orange {
+            --avatar-gradient: conic-gradient(#f97316, #fdba74, #f97316);
+        }
+
+        .avatar-teal {
+            --avatar-gradient: conic-gradient(#14b8a6, #5eead4, #14b8a6);
+        }
+
+        .team-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .team-card .role {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            margin-top: -8px;
+        }
+
+        /* Gold bolt icon + decorative lines beneath name/role */
+        .team-bolt-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .bolt-line {
+            height: 1px;
+            width: 40px;
+            background: rgba(245, 166, 35, 0.3);
+        }
+
+        .bolt-icon {
+            color: var(--accent-gold);
+            font-size: 13px;
+        }
+
+        /* Tagline pill beneath the team grid */
+        .team-tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .team-tagline .bolt-accent {
+            color: var(--accent-gold);
+        }
+
+        /* Decorative floating dots scattered in team section */
+        .dot-scatter {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+
+        /* ==========================================
+           FOOTER
+           4-column layout with links & contact
+           ========================================== */
+        .footer {
+            background: #080808;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px 80px 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+
+        /* Brand column */
+        .footer-brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--accent-teal);
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .footer-brand-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.65;
+            margin-bottom: 22px;
+            max-width: 280px;
+        }
+
+        /* Social icon circles row */
+        .footer-socials {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            text-decoration: none;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .social-icon:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+
+        /* Footer column headings */
+        .footer-col h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: var(--text-primary);
+        }
+
+        /* Footer link list */
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .footer-col ul a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-col ul a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Contact column items with leading icon */
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .contact-item i {
+            color: var(--accent-teal);
+            font-size: 14px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* Footer bottom bar */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 22px;
+        }
+
+        .footer-legal a {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-legal a:hover {
+            color: var(--text-muted);
+        }
+
+        /* ==========================================
+           CHATBOT FLOATING BUTTON
+           Fixed teal circle at bottom-right
+           ========================================== */
+        .chatbot-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 52px;
+            height: 52px;
+            background: var(--accent-teal);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #111;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(29, 233, 182, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        .chatbot-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 28px rgba(29, 233, 182, 0.5);
+        }
+
+        /* ==========================================
+           RESPONSIVE BREAKPOINTS
+           ========================================== */
+        @media (max-width: 1024px) {
+            .navbar {
+                width: calc(100% - 40px);
+                padding: 10px 18px;
+                gap: 16px;
+            }
+
+            .nav-search {
+                display: none;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .carousel-card.active {
+                width: 340px;
+                height: 360px;
+            }
+
+            .carousel-card.side {
+                width: 160px;
+                height: 310px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                top: 10px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-section {
+                padding-top: 100px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+
+            .carousel-card.active {
+                width: 280px;
+                height: 300px;
+            }
+
+            .carousel-card.side {
+                width: 110px;
+                height: 260px;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .category-section {
+                padding: 50px 20px;
+            }
+
+            .team-section {
+                padding: 60px 20px;
+            }
+
+            .footer {
+                padding: 40px 24px 24px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .carousel-card.side {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="home-body">
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <div class="nav-logo-icon">
+                <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <span class="nav-brand-name">VitaPulse</span>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="fitness.html">BMI Calculator</a></li>
+            <li><a href="health.html">Wellness</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search...">
+        </div>
+
+        <div class="nav-actions">
+            <a href="login.html" class="btn-login">
+                <i class="fa-regular fa-user"></i> Login
+            </a>
+            <a href="register.html" class="btn-register">Register</a>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+
+        <h1 class="hero-title">Your Journey to <span class="highlight">Wellness</span></h1>
+        <p class="hero-subtitle">Transform your health with AI-powered insights and personalized care</p>
+
+        <div class="carousel-wrapper">
+
+            <button class="carousel-btn prev" id="prevBtn" aria-label="Previous slide">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <div class="carousel-track" id="carouselTrack">
+
+                <div class="carousel-card side" data-index="0">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop"
+                        alt="Strength & Power">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #b45309, #92400e);"></div>
+                    <div class="card-caption">
+                        <h3>Strength &amp; Power</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card active" data-index="1">
+                    <img src="https://images.unsplash.com/photo-1517344884509-a0c97ec11bcc?q=80&w=900&auto=format&fit=crop"
+                        alt="Find Your Balance">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #065f46, #047857);"></div>
+                    <div class="card-caption">
+                        <h3>Find Your Balance</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card side" data-index="2">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop"
+                        alt="Achieve Peak Performance">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #1e3a5f, #1e40af);"></div>
+                    <div class="card-caption">
+                        <h3>Achieve Peak Perf.</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card side" data-index="3">
+                    <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=800&auto=format&fit=crop"
+                        alt="Mind & Body Fitness">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #5b21b6, #7c3aed);"></div>
+                    <div class="card-caption">
+                        <h3>Mind &amp; Body Fitness</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card side" data-index="4">
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=800&auto=format&fit=crop"
+                        alt="Eat Clean, Live Strong">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #92400e, #b45309);"></div>
+                    <div class="card-caption">
+                        <h3>Eat Clean, Live Strong</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card side" data-index="5">
+                    <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop"
+                        alt="Consult Health Experts">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #065f46, #0f766e);"></div>
+                    <div class="card-caption">
+                        <h3>Consult Health Experts</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card side" data-index="6">
+                    <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=800&auto=format&fit=crop"
+                        alt="Cardio & Endurance">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #7f1d1d, #991b1b);"></div>
+                    <div class="card-caption">
+                        <h3>Cardio &amp; Endurance</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card side" data-index="7">
+                    <img src="https://images.unsplash.com/photo-1541480601022-2308c0f02487?q=80&w=800&auto=format&fit=crop"
+                        alt="Sleep & Recovery">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #1e3a5f, #312e81);"></div>
+                    <div class="card-caption">
+                        <h3>Sleep &amp; Recovery</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card side" data-index="8">
+                    <img src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?q=80&w=800&auto=format&fit=crop"
+                        alt="Yoga & Flexibility">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #14532d, #166534);"></div>
+                    <div class="card-caption">
+                        <h3>Yoga &amp; Flexibility</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card side" data-index="9">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop"
+                        alt="Mental Wellness">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #4c1d95, #6d28d9);"></div>
+                    <div class="card-caption">
+                        <h3>Mental Wellness</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+                <div class="carousel-card side" data-index="10">
+                    <img src="https://images.unsplash.com/photo-1490818387583-1baba5e638af?q=80&w=800&auto=format&fit=crop"
+                        alt="Hydration & Nutrition">
+                    <div class="card-overlay" style="background: linear-gradient(135deg, #0c4a6e, #0369a1);"></div>
+                    <div class="card-caption">
+                        <h3>Hydration &amp; Nutrition</h3>
+                        <div class="caption-accent"></div>
+                    </div>
+                </div>
+
+            </div><button class="carousel-btn next" id="nextBtn" aria-label="Next slide">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+        </div>
+        <div class="hero-cta">
+            <a href="getstarted.html" class="btn-get-started">
+                Get Started <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="learnmore.html" class="btn-learn-more">Learn More</a>
+        </div>
+
+        <div class="carousel-dots" id="carouselDots"></div>
+
+    </section>
+
+    <section class="category-section">
+        <div class="category-grid">
+
+            <div class="category-card fitness-card-animated" onclick="window.location='fitness.html'"
+                style="cursor:pointer;">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=900&auto=format&fit=crop"
+                    alt="Fitness">
+                <div class="cat-overlay"></div>
+                <a href="fitness.html" class="fitness-open-page-btn" onclick="event.stopPropagation();">Open Page
+                    &rarr;</a>
+                <div class="cat-content">
+                    <span class="cat-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="2" y="13" width="5" height="6" rx="2" fill="white" opacity="0.85" />
+                            <rect x="7" y="11" width="3" height="10" rx="1.5" fill="white" opacity="0.85" />
+                            <rect x="10" y="14" width="12" height="4" rx="1" fill="white" opacity="0.85" />
+                            <rect x="22" y="11" width="3" height="10" rx="1.5" fill="white" opacity="0.85" />
+                            <rect x="25" y="13" width="5" height="6" rx="2" fill="white" opacity="0.85" />
+                            <rect x="13" y="20" width="2" height="6" rx="1" fill="white" opacity="0.85"
+                                transform="rotate(-45 13 20)" />
+                        </svg>
+                    </span>
+                    <h2>Fitness</h2>
+                    <p>Build strength, endurance, and transform your body with expert guidance</p>
+                    <a href="fitness.html" class="fitness-explore-btn" onclick="event.stopPropagation();">
+                        <strong>Explore Fitness &nbsp;&rarr;</strong>
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                /* Animated gold border glow on hover — Fitness */
+                .fitness-card-animated {
+                    border: 2px solid transparent;
+                    transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+                }
+
+                .fitness-card-animated:hover {
+                    border-color: var(--accent-gold);
+                    box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.25), 0 8px 40px rgba(245, 166, 35, 0.2);
+                    transform: translateY(-4px);
+                }
+
+                /* "Open Page →" pill — hidden by default, slides in on hover */
+                .fitness-open-page-btn {
+                    position: absolute;
+                    top: 16px;
+                    right: 16px;
+                    background: rgba(20, 20, 20, 0.82);
+                    border: 1px solid rgba(255, 255, 255, 0.18);
+                    color: #ffffff;
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 12px;
+                    font-weight: 500;
+                    padding: 7px 14px;
+                    border-radius: 50px;
+                    text-decoration: none;
+                    opacity: 0;
+                    transform: translateY(-6px);
+                    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+                    z-index: 5;
+                    backdrop-filter: blur(6px);
+                }
+
+                .fitness-card-animated:hover {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                .fitness-open-page-btn:hover {
+                    background: rgba(245, 166, 35, 0.15);
+                    border-color: var(--accent-gold);
+                    color: var(--accent-gold);
+                }
+
+                /* "Explore Fitness →" link — hidden by default, slides up on hover */
+                .fitness-explore-btn {
+                    display: inline-block;
+                    margin-top: 14px;
+                    color: #ffffff;
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 13px;
+                    font-weight: 700;
+                    text-decoration: none;
+                    letter-spacing: 0.3px;
+                    opacity: 0;
+                    transform: translateY(8px);
+                    transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s, color 0.2s ease;
+                }
+
+                .fitness-card-animated:hover .fitness-explore-btn {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                .fitness-explore-btn:hover {
+                    color: var(--accent-gold);
+                }
+            </style>
+
+            <div class="category-card health-card-animated" onclick="window.location='health.html'"
+                style="cursor:pointer;">
+                <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=900&auto=format&fit=crop"
+                    alt="Health">
+                <div class="cat-overlay"></div>
+                <a href="health.html" class="health-open-page-btn" onclick="event.stopPropagation();">Open Page
+                    &rarr;</a>
+                <div class="cat-content">
+                    <span class="cat-icon"><i class="fa-regular fa-heart"></i></span>
+                    <h2>Health</h2>
+                    <p>Nurture your wellbeing through holistic health and mindful practices</p>
+                    <a href="health.html" class="health-explore-btn" onclick="event.stopPropagation();">
+                        <strong>Explore Health &nbsp;&rarr;</strong>
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                /* Animated gold border glow on hover */
+                .health-card-animated {
+                    border: 2px solid transparent;
+                    transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+                }
+
+                .health-card-animated:hover {
+                    border-color: var(--accent-gold);
+                    box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.25), 0 8px 40px rgba(245, 166, 35, 0.2);
+                    transform: translateY(-4px);
+                }
+
+                /* "Open Page →" pill — hidden by default, slides in on hover */
+                .health-open-page-btn {
+                    position: absolute;
+                    top: 16px;
+                    right: 16px;
+                    background: rgba(20, 20, 20, 0.82);
+                    border: 1px solid rgba(255, 255, 255, 0.18);
+                    color: #ffffff;
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 12px;
+                    font-weight: 500;
+                    padding: 7px 14px;
+                    border-radius: 50px;
+                    text-decoration: none;
+                    opacity: 0;
+                    transform: translateY(-6px);
+                    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+                    z-index: 5;
+                    backdrop-filter: blur(6px);
+                }
+
+                .health-card-animated:hover {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                .health-open-page-btn:hover {
+                    background: rgba(245, 166, 35, 0.15);
+                    border-color: var(--accent-gold);
+                    color: var(--accent-gold);
+                }
+
+                /* "Explore Health →" link — hidden by default, slides up on hover */
+                .health-explore-btn {
+                    display: inline-block;
+                    margin-top: 14px;
+                    color: #ffffff;
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 13px;
+                    font-weight: 700;
+                    text-decoration: none;
+                    letter-spacing: 0.3px;
+                    opacity: 0;
+                    transform: translateY(8px);
+                    transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s, color 0.2s ease;
+                }
+
+                .health-card-animated:hover .health-explore-btn {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                .health-explore-btn:hover {
+                    color: var(--accent-gold);
+                }
+            </style>
+
+        </div>
+    </section>
+
+    <section class="team-section">
+
+        <div class="dot-scatter" style="top:12%; left:8%;"></div>
+        <div class="dot-scatter" style="top:55%; left:3%;"></div>
+        <div class="dot-scatter" style="top:80%; left:15%;"></div>
+        <div class="dot-scatter" style="top:20%; right:5%;"></div>
+        <div class="dot-scatter" style="top:65%; right:8%;"></div>
+
+        <h2 class="section-heading">Meet the <span class="gold">Team</span></h2>
+        <p class="section-subheading">Passionate individuals building the future of health and wellness</p>
+
+        <div class="team-grid">
+
+            <div class="team-card">
+                <div class="team-avatar avatar-purple">
+                    <div class="avatar-inner">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                </div>
+                <h3>Yasif Ansari</h3>
+                <p class="role">Scrum Master</p>
+                <div class="team-bolt-row">
+                    <div class="bolt-line"></div>
+                    <i class="fa-solid fa-bolt bolt-icon"></i>
+                    <div class="bolt-line"></div>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-avatar avatar-gold">
+                    <div class="avatar-inner">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                </div>
+                <h3>Pratik Gelal</h3>
+                <p class="role">Developer</p>
+                <div class="team-bolt-row">
+                    <div class="bolt-line"></div>
+                    <i class="fa-solid fa-bolt bolt-icon"></i>
+                    <div class="bolt-line"></div>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-avatar avatar-blue">
+                    <div class="avatar-inner">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                </div>
+                <h3>Shreeyaas Maharjan</h3>
+                <p class="role">Developer</p>
+                <div class="team-bolt-row">
+                    <div class="bolt-line"></div>
+                    <i class="fa-solid fa-bolt bolt-icon"></i>
+                    <div class="bolt-line"></div>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-avatar avatar-pink">
+                    <div class="avatar-inner">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                </div>
+                <h3>Princess Bhandari</h3>
+                <p class="role">Developer</p>
+                <div class="team-bolt-row">
+                    <div class="bolt-line"></div>
+                    <i class="fa-solid fa-bolt bolt-icon"></i>
+                    <div class="bolt-line"></div>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-avatar avatar-orange">
+                    <div class="avatar-inner">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                </div>
+                <h3>Saksham Shrestha</h3>
+                <p class="role">Developer</p>
+                <div class="team-bolt-row">
+                    <div class="bolt-line"></div>
+                    <i class="fa-solid fa-bolt bolt-icon"></i>
+                    <div class="bolt-line"></div>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-avatar avatar-teal">
+                    <div class="avatar-inner">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                </div>
+                <h3>Kritagya Shrestha</h3>
+                <p class="role">Developer</p>
+                <div class="team-bolt-row">
+                    <div class="bolt-line"></div>
+                    <i class="fa-solid fa-bolt bolt-icon"></i>
+                    <div class="bolt-line"></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="team-tagline">
+            <i class="fa-solid fa-bolt bolt-accent"></i>
+            Empowering wellness, one line of code at a time
+            <i class="fa-solid fa-bolt bolt-accent"></i>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+
+            <div class="footer-col">
+                <div class="footer-brand-name">VITAPULSE</div>
+                <p class="footer-brand-desc">
+                    Your journey to optimal health and fitness starts here. Transform your life with our holistic
+                    approach.
+                </p>
+                <div class="footer-socials">
+                    <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="learnmore.html">Our Services</a></li>
+                    <li><a href="fitness.html">BMI Calculator</a></li>
+                    <li><a href="health.html">Wellness Programs</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Our Services</h4>
+                <ul>
+                    <li><a href="fitness.html">Personal Training</a></li>
+                    <li><a href="fitness.html">Yoga Classes</a></li>
+                    <li><a href="fitness.html">Nutrition Coaching</a></li>
+                    <li><a href="health.html">Meditation Sessions</a></li>
+                    <li><a href="health.html">Health Assessments</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <div class="contact-item">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>123 Wellness Ave, Health City, HC 12345</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+1 (234) 567-890</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>vitaapulsee@gmail.com</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 VITAPULSE. All rights reserved.</p>
+            <div class="footer-legal">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+
+    </footer>
+
+    <a href="chatbox.html" class="chatbot-btn" aria-label="Open chat">
+        <i class="fa-regular fa-comment"></i>
+    </a>
+
+    <script src="script.js"></script>
+
+    <script>
+        /* ==========================================
+           HOME PAGE CAROUSEL LOGIC
+           Handles: next/prev, dot generation,
+           active card switching, auto-play
+           ========================================== */
+        (function () {
+            const cards = Array.from(document.querySelectorAll('.carousel-card'));
+            const dotsContainer = document.getElementById('carouselDots');
+            const totalCards = cards.length;
+            let currentIndex = 1; // start on card index 1 (middle visible card)
+
+            /* --- BUILD DOT INDICATORS --- */
+            cards.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (i === currentIndex ? ' active' : '');
+                dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                dot.addEventListener('click', () => goTo(i));
+                dotsContainer.appendChild(dot);
+            });
+
+            /* --- RENDER: update classes for active/side/hidden --- */
+            function render() {
+                cards.forEach((card, i) => {
+                    card.classList.remove('active', 'side');
+
+                    // Active: the card at currentIndex
+                    if (i === currentIndex) {
+                        card.classList.add('active');
+                    }
+                    // Side: immediate neighbours (left and right of active)
+                    else if (
+                        i === (currentIndex - 1 + totalCards) % totalCards ||
+                        i === (currentIndex + 1) % totalCards
+                    ) {
+                        card.classList.add('side');
+                        card.style.display = '';
+                    } else {
+                        // Hide all other cards so only 3 are visible
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Make sure left/right side cards are visible
+                const leftIdx = (currentIndex - 1 + totalCards) % totalCards;
+                const rightIdx = (currentIndex + 1) % totalCards;
+                cards[leftIdx].style.display = '';
+                cards[rightIdx].style.display = '';
+
+                // Update dots
+                const dots = dotsContainer.querySelectorAll('.dot');
+                dots.forEach((d, i) => {
+                    d.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            /* --- NAVIGATE TO A SPECIFIC INDEX --- */
+            function goTo(index) {
+                currentIndex = (index + totalCards) % totalCards;
+                render();
+            }
+
+            /* --- PREV / NEXT BUTTONS --- */
+            document.getElementById('prevBtn').addEventListener('click', () => goTo(currentIndex - 1));
+            document.getElementById('nextBtn').addEventListener('click', () => goTo(currentIndex + 1));
+
+            /* --- CLICK ON SIDE CARD → MAKE IT ACTIVE --- */
+            cards.forEach((card, i) => {
+                card.addEventListener('click', () => {
+                    if (card.classList.contains('side')) {
+                        goTo(i);
+                    }
+                });
+            });
+
+            /* --- AUTO-PLAY every 4 seconds --- */
+            let autoPlay = setInterval(() => goTo(currentIndex + 1), 4000);
+
+            // Pause autoplay on user interaction
+            document.querySelector('.carousel-wrapper').addEventListener('mouseenter', () => clearInterval(autoPlay));
+            document.querySelector('.carousel-wrapper').addEventListener('mouseleave', () => {
+                autoPlay = setInterval(() => goTo(currentIndex + 1), 4000);
+            });
+
+            /* Initial render */
+            render();
+        })();
+    </script>
+
+</body>
+
+</html>
