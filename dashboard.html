@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VitaPulse – Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0b0b18;
+            --bg2: #10101e;
+            --card: #13132a;
+            --card2: #181830;
+            --border: rgba(255, 255, 255, 0.07);
+            --purple: #7c3aed;
+            --purple2: #a855f7;
+            --blue: #2dd4bf;
+            --cyan: #06b6d4;
+            --gold: #f59e0b;
+            --green: #22c55e;
+            --text: #f0f0ff;
+            --muted: #8885a8;
+            --glow: rgba(124, 58, 237, 0.25);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 80% 20%, rgba(124, 58, 237, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 10% 80%, rgba(6, 182, 212, 0.07) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            height: 60px;
+            background: rgba(11, 11, 24, 0.85);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo-area {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 0 14px var(--glow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .logo-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .logo-area .logo-placeholder {
+            color: #fff;
+            font-weight: 800;
+            font-size: 13px;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .logo-area.has-img img {
+            display: block;
+        }
+
+        .logo-area.has-img .logo-placeholder {
+            display: none;
+        }
+
+        .brand-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #fff 40%, var(--purple2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            position: relative;
+            transition: background .2s, border-color .2s;
+        }
+
+        .nav-btn:hover {
+            background: var(--card2);
+            border-color: var(--purple);
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg);
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 0 18px;
+            height: 38px;
+            border-radius: 20px;
+            background: transparent;
+            border: 1.5px solid #ef4444;
+            color: #ef4444;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .2s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, .1);
+        }
+
+        /* LAYOUT */
+        .layout {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 0;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            padding: 28px 20px 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+        }
+
+        .profile-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 24px 20px;
+            margin-bottom: 18px;
+        }
+
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .profile-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .edit-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(124, 58, 237, .15);
+            border: 1px solid rgba(124, 58, 237, .35);
+            color: var(--purple2);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .2s;
+        }
+
+        .edit-btn:hover {
+            background: rgba(124, 58, 237, .28);
+        }
+
+        .avatar-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2), 0 0 30px var(--glow);
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .user-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .plan-badge {
+            padding: 4px 14px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--muted);
+        }
+
+        .info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--card2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 11px 14px;
+        }
+
+        .info-icon {
+            color: var(--purple2);
+            font-size: 15px;
+            width: 18px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .info-content .label {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 2px;
+        }
+
+        .info-content .val {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .sub-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 22px 20px;
+        }
+
+        .sub-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .sub-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .upgrade-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--purple), var(--cyan));
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Syne', sans-serif;
+            cursor: pointer;
+            letter-spacing: .5px;
+            transition: opacity .2s, transform .15s;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, .35);
+        }
+
+        .upgrade-btn:hover {
+            opacity: .9;
+            transform: translateY(-1px);
+        }
+
+        /* MAIN */
+        .main {
+            padding: 28px 30px 50px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        /* Health overview cards */
+        .health-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .health-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px 16px;
+            transition: transform .2s, border-color .2s;
+        }
+
+        .health-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(124, 58, 237, .4);
+        }
+
+        .hc-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            margin-bottom: 12px;
+        }
+
+        .hc-label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .hc-val {
+            font-family: 'Syne', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .hc-sub {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .progress-bar {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        /* BMI Badge */
+        .bmi-badge {
+            display: inline-block;
+            margin-top: 6px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .5px;
+        }
+
+        .bmi-normal {
+            background: rgba(34, 197, 94, .15);
+            color: var(--green);
+        }
+
+        .bmi-overweight {
+            background: rgba(245, 158, 11, .15);
+            color: var(--gold);
+        }
+
+        .bmi-underweight {
+            background: rgba(6, 182, 212, .15);
+            color: var(--cyan);
+        }
+
+        .bmi-obese {
+            background: rgba(239, 68, 68, .15);
+            color: #ef4444;
+        }
+
+        /* Premium section */
+        .premium-section {
+            margin-bottom: 28px;
+        }
+
+        .premium-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .premium-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 22px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: transform .2s, border-color .2s, background .2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(124, 58, 237, .5);
+            background: rgba(124, 58, 237, .06);
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(124, 58, 237, .05), transparent);
+            opacity: 0;
+            transition: opacity .3s;
+        }
+
+        .premium-card:hover::before {
+            opacity: 1;
+        }
+
+        .lock-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f1dcb, var(--purple2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            box-shadow: 0 4px 16px rgba(124, 58, 237, .4);
+        }
+
+        .premium-card-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        /* Activity */
+        .activity-section {
+            margin-bottom: 28px;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .activity-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: border-color .2s;
+        }
+
+        .activity-item:hover {
+            border-color: rgba(124, 58, 237, .3);
+        }
+
+        .act-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .act-info .act-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .act-info .act-time {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* ===== MODALS ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0, 0, 0, .75);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            position: relative;
+            animation: fadeUp .3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.07);
+            border: none;
+            color: var(--muted);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background .2s, color .2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, .12);
+            color: var(--text);
+        }
+
+        /* EDIT PROFILE MODAL */
+        #editProfileModal .modal {
+            width: 500px;
+            max-width: 95vw;
+        }
+
+        .edit-modal-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .edit-avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 12px;
+        }
+
+        .edit-avatar-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2);
+            cursor: pointer;
+        }
+
+        .edit-avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .avatar-upload-hint {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .edit-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+        }
+
+        .form-input,
+        .form-select {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 11px 14px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border-color .2s;
+            width: 100%;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--purple);
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        .form-select option {
+            background: var(--card2);
+        }
+
+        .edit-form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            background: transparent;
+            border: 1.5px solid var(--border);
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: border-color .2s, color .2s;
+        }
+
+        .btn-cancel:hover {
+            border-color: var(--muted);
+            color: var(--text);
+        }
+
+        .btn-save {
+            flex: 2;
+            padding: 12px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--purple), var(--purple2));
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Syne', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 4px 16px var(--glow);
+            transition: opacity .2s;
+        }
+
+        .btn-save:hover {
+            opacity: .9;
+        }
+
+        /* SUBSCRIPTION MODAL */
+        #subModal .modal {
+            max-width: 920px;
+            width: 95vw;
+        }
+
+        .sub-modal-title {
+            text-align: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .sub-modal-title span {
+            color: var(--cyan);
+        }
+
+        .sub-modal-desc {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        .plan-card {
+            border-radius: 18px;
+            padding: 26px 22px;
+            border: 1.5px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            position: relative;
+            transition: transform .2s;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .plan-card.popular {
+            border-color: var(--cyan);
+            background: rgba(6, 182, 212, 0.04);
+        }
+
+        .plan-card.premium-plan {
+            border-color: var(--gold);
+            background: rgba(245, 158, 11, 0.04);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, var(--purple), var(--cyan));
+            padding: 5px 18px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .plan-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .plan-sub {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .plan-price {
+            font-family: 'Syne', sans-serif;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .plan-price .currency {
+            font-size: 20px;
+        }
+
+        .plan-price .per {
+            font-size: 13px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 16px 0 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .plan-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .plan-features li .chk {
+            color: var(--green);
+            font-size: 13px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .plan-action {
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Syne', sans-serif;
+            cursor: pointer;
+            transition: opacity .2s, transform .15s;
+            border: 1.5px solid var(--border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--muted);
+        }
+
+        .plan-action.cta-cyan {
+            background: linear-gradient(90deg, var(--purple), var(--cyan));
+            border: none;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(6, 182, 212, .3);
+        }
+
+        .plan-action.cta-cyan:hover {
+            opacity: .9;
+            transform: translateY(-1px);
+        }
+
+        .plan-action.cta-gold {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: var(--gold);
+            color: var(--text);
+        }
+
+        .plan-action.cta-gold:hover {
+            background: rgba(245, 158, 11, 0.18);
+            transform: translateY(-1px);
+        }
+
+        /* NOTIFICATION MODAL */
+        #notifModal .modal {
+            width: 420px;
+        }
+
+        .notif-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .notif-header-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .mark-all {
+            font-size: 12px;
+            color: var(--purple2);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .mark-all:hover {
+            text-decoration: underline;
+        }
+
+        .notif-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 360px;
+            overflow-y: auto;
+        }
+
+        .notif-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 13px 15px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            transition: border-color .2s;
+            cursor: pointer;
+        }
+
+        .notif-item.unread {
+            border-left: 3px solid var(--purple2);
+        }
+
+        .notif-item:hover {
+            border-color: rgba(124, 58, 237, .35);
+        }
+
+        .notif-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--purple2);
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .notif-dot.read {
+            background: transparent;
+            border: 1.5px solid var(--muted);
+        }
+
+        .notif-text .notif-msg {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .notif-text .notif-time {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .notif-empty {
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            padding: 30px 0;
+        }
+
+        /* SETTINGS MODAL */
+        #settingsModal .modal {
+            width: 460px;
+        }
+
+        .settings-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-group {
+            margin-bottom: 24px;
+        }
+
+        .settings-group-label {
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .setting-row {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .setting-row-left .srl {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .setting-row-left .srs {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background .2s;
+            border: none;
+            flex-shrink: 0;
+        }
+
+        .toggle.on {
+            background: var(--purple);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform .2s;
+        }
+
+        .toggle.on::after {
+            transform: translateX(20px);
+        }
+
+        .settings-select {
+            background: var(--card2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 7px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+        }
+
+        .settings-input {
+            background: var(--card2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 7px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            font-family: 'DM Sans', sans-serif;
+            width: 120px;
+        }
+
+        .settings-input:focus,
+        .settings-select:focus {
+            border-color: var(--purple);
+        }
+
+        .settings-save-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--purple), var(--purple2));
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Syne', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 4px 16px var(--glow);
+            transition: opacity .2s;
+            margin-top: 6px;
+        }
+
+        .settings-save-btn:hover {
+            opacity: .9;
+        }
+
+        .logo-upload-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+        }
+
+        .logo-preview {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .logo-upload-btn {
+            padding: 7px 16px;
+            border-radius: 8px;
+            background: rgba(124, 58, 237, .15);
+            border: 1px solid rgba(124, 58, 237, .3);
+            color: var(--purple2);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .2s;
+        }
+
+        .logo-upload-btn:hover {
+            background: rgba(124, 58, 237, .25);
+        }
+
+        /* Chat bubble */
+        .chat-bubble {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 150;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan), #0e9488);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(6, 182, 212, .4);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .chat-bubble:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 28px rgba(6, 182, 212, .55);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(124, 58, 237, .25);
+            border-radius: 10px;
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 88px;
+            right: 24px;
+            z-index: 300;
+            background: var(--card);
+            border: 1px solid var(--purple);
+            border-radius: 12px;
+            padding: 13px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .4);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all .3s;
+            pointer-events: none;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        #logoFileInput,
+        #avatarFileInput {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .health-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .edit-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a class="nav-brand" href="index.html" title="Go to home">
+            <div class="logo-area" id="logoArea">
+                <img id="logoImg" src="" alt="" />
+                <span class="logo-placeholder">VP</span>
+            </div>
+            <span class="brand-name">VITAPULSE</span>
+        </a>
+        <div class="nav-actions">
+            <button class="nav-btn" title="Notifications" onclick="openModal('notifModal')">
+                🔔
+                <span class="notif-badge" id="notifBadge" style="display:none">0</span>
+            </button>
+            <button class="nav-btn" title="Settings" onclick="openModal('settingsModal')">⚙️</button>
+            <button class="logout-btn" onclick="handleLogout()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                Logout
+            </button>
+        </div>
+    </nav>
+
+    <!-- LAYOUT -->
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <span class="profile-title">Profile</span>
+                    <button class="edit-btn" onclick="openEditProfile()">✏️ Edit</button>
+                </div>
+                <div class="avatar-wrap">
+                    <div class="avatar" id="sidebarAvatar">
+                        <img id="sidebarAvatarImg" src="" alt="" style="display:none" />
+                        <span id="sidebarAvatarEmoji">👤</span>
+                    </div>
+                    <div class="user-name" id="displayName">John Doe</div>
+                    <span class="plan-badge">FREE PLAN</span>
+                </div>
+                <div class="info-list">
+                    <div class="info-item">
+                        <span class="info-icon">✉️</span>
+                        <div class="info-content">
+                            <div class="label">Email</div>
+                            <div class="val" id="displayEmail">vitaapulsee@gmail.com</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📞</span>
+                        <div class="info-content">
+                            <div class="label">Phone</div>
+                            <div class="val" id="displayPhone">+977 9812345678</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📅</span>
+                        <div class="info-content">
+                            <div class="label">Age</div>
+                            <div class="val" id="displayAge">28</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">👤</span>
+                        <div class="info-content">
+                            <div class="label">Gender</div>
+                            <div class="val" id="displayGender">Male</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📍</span>
+                        <div class="info-content">
+                            <div class="label">Location</div>
+                            <div class="val" id="displayLocation">Bhaktapur, Nepal</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">⚖️</span>
+                        <div class="info-content">
+                            <div class="label">Weight (kg)</div>
+                            <div class="val" id="displayWeight">78</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">📏</span>
+                        <div class="info-content">
+                            <div class="label">Height (cm)</div>
+                            <div class="val" id="displayHeight">175</div>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-icon">🏥</span>
+                        <div class="info-content">
+                            <div class="label">Medical Conditions</div>
+                            <div class="val" id="displayMedical">None</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub-card">
+                <div class="sub-title">👑 Subscription</div>
+                <p class="sub-desc">You're currently on the Free plan. Upgrade to unlock premium features and get the
+                    most out of VitaPulse.</p>
+                <button class="upgrade-btn" onclick="openModal('subModal')">Upgrade to Premium</button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main">
+
+            <!-- Health Overview -->
+            <div class="section-title">Health Overview</div>
+            <div class="health-grid" id="healthGrid">
+
+                <!-- BMI Card -->
+                <div class="health-card">
+                    <div class="hc-icon" style="background:rgba(168,85,247,.15)">⚖️</div>
+                    <div class="hc-label">BMI</div>
+                    <div class="hc-val" id="bmiVal">25.5</div>
+                    <div class="bmi-badge bmi-normal" id="bmiBadge">Normal</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="bmiBar"
+                            style="width:51%;background:linear-gradient(90deg,#22c55e,#86efac)"></div>
+                    </div>
+                </div>
+
+                <!-- Body Goal Card -->
+                <div class="health-card">
+                    <div class="hc-icon" style="background:rgba(6,182,212,.15)">🎯</div>
+                    <div class="hc-label">Body Goal</div>
+                    <div class="hc-val" style="font-size:18px;line-height:1.2" id="bodyGoalVal">Weight Loss</div>
+                    <div class="hc-sub" id="bodyGoalSub">Active program</div>
+                    <div class="progress-bar" style="margin-top:14px">
+                        <div class="progress-fill" id="goalBar"
+                            style="width:60%;background:linear-gradient(90deg,#06b6d4,#0e9488)"></div>
+                    </div>
+                </div>
+
+                <!-- Calories Card -->
+                <div class="health-card">
+                    <div class="hc-icon" style="background:rgba(245,158,11,.15)">🍎</div>
+                    <div class="hc-label">Daily Calories</div>
+                    <div class="hc-val" id="caloriesVal">1,847</div>
+                    <div class="hc-sub" id="caloriesGoal">Goal: 2,200 kcal</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="caloriesBar"
+                            style="width:84%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div>
+                    </div>
+                </div>
+
+                <!-- Water Card -->
+                <div class="health-card">
+                    <div class="hc-icon" style="background:rgba(34,197,94,.15)">💧</div>
+                    <div class="hc-label">Water Intake</div>
+                    <div class="hc-val" id="waterVal">6.5L</div>
+                    <div class="hc-sub" id="waterGoal">Goal: 8L</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="waterBar"
+                            style="width:81%;background:linear-gradient(90deg,#22c55e,#4ade80)"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Premium Features -->
+            <div class="premium-section">
+                <div class="section-title">Premium Features</div>
+                <div class="premium-grid">
+                    <div class="premium-card" onclick="openModal('subModal')">
+                        <div class="lock-icon">🔒</div>
+                        <div class="premium-card-label">AI Meal Planner</div>
+                    </div>
+                    <div class="premium-card" onclick="openModal('subModal')">
+                        <div class="lock-icon">🔒</div>
+                        <div class="premium-card-label">Advanced Analytics</div>
+                    </div>
+                    <div class="premium-card" onclick="openModal('subModal')">
+                        <div class="lock-icon">🔒</div>
+                        <div class="premium-card-label">Family Health Profiles</div>
+                    </div>
+                    <div class="premium-card" onclick="openModal('subModal')">
+                        <div class="lock-icon">🔒</div>
+                        <div class="premium-card-label">1-on-1 Coach Sessions</div>
+                    </div>
+                    <div class="premium-card" onclick="openModal('subModal')">
+                        <div class="lock-icon">🔒</div>
+                        <div class="premium-card-label">Biomarker Reports</div>
+                    </div>
+                    <div class="premium-card" onclick="openModal('subModal')">
+                        <div class="lock-icon">🔒</div>
+                        <div class="premium-card-label">Priority Support 24/7</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-section">
+                <div class="section-title">Recent Activity</div>
+                <div class="activity-list" id="activityList">
+                    <div class="activity-item">
+                        <div class="act-icon" style="background:rgba(124,58,237,.2)">📈</div>
+                        <div class="act-info">
+                            <div class="act-name">Morning Cardio</div>
+                            <div class="act-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="act-icon" style="background:rgba(168,85,247,.2)">🍎</div>
+                        <div class="act-info">
+                            <div class="act-name">Logged Breakfast</div>
+                            <div class="act-time">3 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="act-icon" style="background:rgba(245,158,11,.18)">🎯</div>
+                        <div class="act-info">
+                            <div class="act-name">Completed Daily Steps</div>
+                            <div class="act-time">5 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="act-icon" style="background:rgba(6,182,212,.18)">💧</div>
+                        <div class="act-info">
+                            <div class="act-name">Water Goal 80% Reached</div>
+                            <div class="act-time">6 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ===== EDIT PROFILE MODAL ===== -->
+    <div class="modal-overlay" id="editProfileModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('editProfileModal')">✕</button>
+            <div class="edit-modal-title">✏️ Edit Profile</div>
+
+            <div class="edit-avatar-section">
+                <div class="edit-avatar-preview" id="editAvatarPreview"
+                    onclick="document.getElementById('avatarFileInput').click()" title="Click to change photo">
+                    <img id="editAvatarImg" src="" alt="" style="display:none" />
+                    <span id="editAvatarEmoji">👤</span>
+                </div>
+                <div class="avatar-upload-hint">Click avatar to change photo</div>
+                <input type="file" id="avatarFileInput" accept="image/*" onchange="handleAvatarUpload(event)" />
+            </div>
+
+            <div class="edit-form-grid">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input class="form-input" id="editName" type="text" placeholder="Your full name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Age</label>
+                    <input class="form-input" id="editAge" type="number" min="1" max="120" placeholder="Age" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input class="form-input" id="editEmail" type="email" placeholder="your@email.com" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Phone</label>
+                    <input class="form-input" id="editPhone" type="tel" placeholder="+977 98XXXXXXXX" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Gender</label>
+                    <select class="form-select" id="editGender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Non-binary">Non-binary</option>
+                        <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input class="form-input" id="editLocation" type="text" placeholder="City, Country" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Weight (kg)</label>
+                    <input class="form-input" id="editWeight" type="number" min="20" max="300" step="0.1"
+                        placeholder="kg" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Height (cm)</label>
+                    <input class="form-input" id="editHeight" type="number" min="50" max="250" step="0.1"
+                        placeholder="cm" />
+                </div>
+                <div class="form-group full">
+                    <label class="form-label">Medical Conditions</label>
+                    <input class="form-input" id="editMedical" type="text"
+                        placeholder="None, Diabetes, Hypertension…" />
+                </div>
+            </div>
+
+            <div class="edit-form-actions">
+                <button class="btn-cancel" onclick="closeModal('editProfileModal')">Cancel</button>
+                <button class="btn-save" onclick="saveProfile()">💾 Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SUBSCRIPTION MODAL ===== -->
+    <div class="modal-overlay" id="subModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('subModal')">✕</button>
+            <div class="sub-modal-title">Choose Your <span>Health Journey</span></div>
+            <p class="sub-modal-desc">VitaPulse is your digital health assistant that provides AI-powered health
+                insights, expert consultations, and personalized wellness plans.</p>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <div class="plan-name">VitaPulse Basic</div>
+                    <div class="plan-sub">Simple tools for personal health monitoring.</div>
+                    <div class="plan-price">Free</div>
+                    <ul class="plan-features">
+                        <li><span class="chk">✓</span> Basic health tracking (Steps, sleep)</li>
+                        <li><span class="chk">✓</span> AI symptom checker limited access</li>
+                        <li><span class="chk">✓</span> Weekly essential health tips</li>
+                        <li><span class="chk">✓</span> Mental wellness resources</li>
+                    </ul>
+                    <button class="plan-action active-plan">Current Plan</button>
+                </div>
+                <div class="plan-card popular">
+                    <div class="popular-badge">MOST POPULAR</div>
+                    <div class="plan-name">VitaPulse Plus</div>
+                    <div class="plan-sub">The ultimate fitness and training solution.</div>
+                    <div class="plan-price"><span class="currency">Rs</span> 599 <span class="per">NPR /month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><span class="chk">✓</span> Everything in Basic</li>
+                        <li><span class="chk">✓</span> Unlimited AI health insights & tracking</li>
+                        <li><span class="chk">✓</span> Personalized diet & workout plans</li>
+                        <li><span class="chk">✓</span> 4 digital coach sessions per month</li>
+                        <li><span class="chk">✓</span> Continuous habit analysis tracking</li>
+                    </ul>
+                    <button class="plan-action cta-cyan" onclick="handleUpgrade('Plus')">Upgrade Now</button>
+                </div>
+                <div class="plan-card premium-plan">
+                    <div class="plan-name">VitaPulse Premium</div>
+                    <div class="plan-sub">High-tier expert health management.</div>
+                    <div class="plan-price"><span class="currency">Rs</span> 999 <span class="per">NPR /month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><span class="chk">✓</span> Everything in Plus</li>
+                        <li><span class="chk">✓</span> Unlimited direct specialist consultations</li>
+                        <li><span class="chk">✓</span> Family profiles (Add up to 4 members)</li>
+                        <li><span class="chk">✓</span> Predictive biomarker analysis reports</li>
+                        <li><span class="chk">✓</span> 24/7 dedicated support priority line</li>
+                    </ul>
+                    <button class="plan-action cta-gold" onclick="handleUpgrade('Premium')">Go Premium</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== NOTIFICATION MODAL ===== -->
+    <div class="modal-overlay" id="notifModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('notifModal')">✕</button>
+            <div class="notif-header">
+                <div class="notif-header-title">🔔 Notifications</div>
+                <button class="mark-all" onclick="markAllRead()">Mark all as read</button>
+            </div>
+            <div class="notif-list" id="notifList">
+                <!-- populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SETTINGS MODAL ===== -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+            <div class="settings-title">⚙️ Settings</div>
+
+            <!-- Logo Upload -->
+            <div class="settings-group">
+                <div class="settings-group-label">Brand</div>
+                <div class="logo-upload-wrap">
+                    <div class="logo-preview" id="logoPreview">
+                        <img id="logoPreviewImg" src="" alt="" />
+                        🏋️
+                    </div>
+                    <div>
+                        <div style="font-size:14px;font-weight:600;margin-bottom:4px">App Logo</div>
+                        <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Upload your logo (PNG, JPG,
+                            SVG)</div>
+                        <button class="logo-upload-btn" onclick="document.getElementById('logoFileInput').click()">📁
+                            Upload Logo</button>
+                        <input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoUpload(event)" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appearance -->
+            <div class="settings-group">
+                <div class="settings-group-label">Appearance</div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Dark Mode</div>
+                        <div class="srs">Keep dark theme on</div>
+                    </div>
+                    <button class="toggle on" id="darkToggle" onclick="toggleSetting(this, 'darkMode')"></button>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Compact View</div>
+                        <div class="srs">Smaller card padding</div>
+                    </div>
+                    <button class="toggle" id="compactToggle" onclick="toggleSetting(this, 'compactView')"></button>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="settings-group">
+                <div class="settings-group-label">Notifications</div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Push Notifications</div>
+                        <div class="srs">Health alerts and reminders</div>
+                    </div>
+                    <button class="toggle on" id="pushToggle" onclick="toggleSetting(this, 'pushNotif')"></button>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Email Digest</div>
+                        <div class="srs">Weekly health summary</div>
+                    </div>
+                    <button class="toggle on" id="emailToggle" onclick="toggleSetting(this, 'emailDigest')"></button>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Activity Reminders</div>
+                        <div class="srs">Daily step & water reminders</div>
+                    </div>
+                    <button class="toggle" id="reminderToggle" onclick="toggleSetting(this, 'reminders')"></button>
+                </div>
+            </div>
+
+            <!-- Daily Goals -->
+            <div class="settings-group">
+                <div class="settings-group-label">Daily Goals</div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Daily Calorie Goal</div>
+                    </div>
+                    <input class="settings-input" id="calorieGoalInput" type="number" value="2200" min="1000"
+                        max="5000" />
+                </div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Daily Steps Goal</div>
+                    </div>
+                    <input class="settings-input" id="stepsGoalInput" type="number" value="10000" min="1000"
+                        max="30000" />
+                </div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Water Goal (Liters)</div>
+                    </div>
+                    <input class="settings-input" id="waterGoalInput" type="number" value="8" min="1" max="20"
+                        step="0.5" />
+                </div>
+            </div>
+
+            <!-- Privacy -->
+            <div class="settings-group">
+                <div class="settings-group-label">Privacy</div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Share Health Data</div>
+                        <div class="srs">Allow anonymized data for research</div>
+                    </div>
+                    <button class="toggle" id="shareDataToggle" onclick="toggleSetting(this, 'shareData')"></button>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-row-left">
+                        <div class="srl">Language</div>
+                    </div>
+                    <select class="settings-select" id="langSelect">
+                        <option>English</option>
+                        <option>Nepali</option>
+                        <option>Hindi</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="settings-save-btn" onclick="saveSettings()">Save Settings</button>
+        </div>
+    </div>
+
+    <!-- CHAT BUBBLE -->
+    <button class="chat-bubble" title="Support Chat" onclick="showToast('💬 Support chat coming soon!')">💬</button>
+
+    <!-- TOAST -->
+    <div id="toast"></div>
+
+    <script>
+        // ── Admin-only notifications (read-only for user)
+        let notifications = [
+            { id: 1, msg: '🎯 Welcome to VitaPulse! Your health journey starts here.', time: '1 hour ago', read: false },
+            { id: 2, msg: '💧 Reminder: Stay hydrated — drink at least 8 glasses of water daily.', time: '3 hours ago', read: false },
+            { id: 3, msg: '🏃 New workout program available: "30-Day Transformation Challenge"', time: '1 day ago', read: false },
+            { id: 4, msg: '📊 Your weekly health report is ready to view.', time: '2 days ago', read: true },
+            { id: 5, msg: '🌟 Tip: Consistent sleep schedule improves metabolism by up to 20%.', time: '3 days ago', read: true },
+        ];
+
+        // ── User profile data (loaded from localStorage or defaults)
+        let userProfile = JSON.parse(localStorage.getItem('vp_profile') || 'null') || {
+            name: 'John Doe',
+            email: 'vitaapulsee@gmail.com',
+            phone: '+977 9812345678',
+            age: '28',
+            gender: 'Male',
+            location: 'Bhaktapur, Nepal',
+            weight: '78',
+            height: '175',
+            medical: 'None',
+            avatarUrl: ''
+        };
+
+        // ── Health data from BMI calculator (loaded from localStorage)
+        let healthData = JSON.parse(localStorage.getItem('vp_health') || 'null') || {
+            bmi: 25.5,
+            bodyGoal: 'Weight Loss',
+            calories: 1847,
+            calorieGoal: 2200,
+            water: 6.5,
+            waterGoal: 8
+        };
+
+        // ── Settings
+        let settings = JSON.parse(localStorage.getItem('vp_settings') || 'null') || {
+            darkMode: true,
+            compactView: false,
+            pushNotif: true,
+            emailDigest: true,
+            reminders: false,
+            shareData: false,
+            calorieGoal: 2200,
+            stepsGoal: 10000,
+            waterGoal: 8,
+            language: 'English'
+        };
+
+        // ── Render notifications (view only)
+        function renderNotifications() {
+            const list = document.getElementById('notifList');
+            list.innerHTML = '';
+            const unread = notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notifBadge');
+            badge.textContent = unread;
+            badge.style.display = unread ? 'flex' : 'none';
+
+            if (notifications.length === 0) {
+                list.innerHTML = '<div class="notif-empty">No notifications yet.</div>';
+                return;
+            }
+
+            notifications.forEach(n => {
+                const el = document.createElement('div');
+                el.className = 'notif-item' + (n.read ? '' : ' unread');
+                el.innerHTML = `
+                    <div class="notif-dot${n.read ? ' read' : ''}"></div>
+                    <div class="notif-text">
+                        <div class="notif-msg">${n.msg}</div>
+                        <div class="notif-time">${n.time}</div>
+                    </div>`;
+                el.onclick = () => { n.read = true; renderNotifications(); };
+                list.appendChild(el);
+            });
+        }
+
+        function markAllRead() {
+            notifications.forEach(n => n.read = true);
+            renderNotifications();
+        }
+
+        // ── Modal helpers
+        function openModal(id) {
+            document.getElementById(id).classList.add('open');
+            if (id === 'notifModal') renderNotifications();
+            if (id === 'settingsModal') loadSettingsUI();
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('open');
+        }
+
+        document.querySelectorAll('.modal-overlay').forEach(ov => {
+            ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); });
+        });
+
+        // ── Open Edit Profile
+        function openEditProfile() {
+            // Populate form with current data
+            document.getElementById('editName').value = userProfile.name;
+            document.getElementById('editEmail').value = userProfile.email;
+            document.getElementById('editPhone').value = userProfile.phone;
+            document.getElementById('editAge').value = userProfile.age;
+            document.getElementById('editGender').value = userProfile.gender;
+            document.getElementById('editLocation').value = userProfile.location;
+            document.getElementById('editWeight').value = userProfile.weight;
+            document.getElementById('editHeight').value = userProfile.height;
+            document.getElementById('editMedical').value = userProfile.medical;
+
+            // Set avatar preview
+            const editAvatarImg = document.getElementById('editAvatarImg');
+            const editAvatarEmoji = document.getElementById('editAvatarEmoji');
+            if (userProfile.avatarUrl) {
+                editAvatarImg.src = userProfile.avatarUrl;
+                editAvatarImg.style.display = 'block';
+                editAvatarEmoji.style.display = 'none';
+            } else {
+                editAvatarImg.style.display = 'none';
+                editAvatarEmoji.style.display = 'block';
+            }
+
+            openModal('editProfileModal');
+        }
+
+        // ── Save Profile
+        function saveProfile() {
+            const name = document.getElementById('editName').value.trim();
+            const email = document.getElementById('editEmail').value.trim();
+            const phone = document.getElementById('editPhone').value.trim();
+            const age = document.getElementById('editAge').value.trim();
+            const gender = document.getElementById('editGender').value;
+            const location = document.getElementById('editLocation').value.trim();
+            const weight = document.getElementById('editWeight').value.trim();
+            const height = document.getElementById('editHeight').value.trim();
+            const medical = document.getElementById('editMedical').value.trim();
+
+            if (!name) { showToast('❗ Name is required'); return; }
+            if (!email) { showToast('❗ Email is required'); return; }
+
+            userProfile = { ...userProfile, name, email, phone, age, gender, location, weight, height, medical };
+            localStorage.setItem('vp_profile', JSON.stringify(userProfile));
+
+            // Recalculate BMI if height and weight changed
+            if (weight && height) {
+                const w = parseFloat(weight);
+                const h = parseFloat(height) / 100;
+                if (w > 0 && h > 0) {
+                    healthData.bmi = parseFloat((w / (h * h)).toFixed(1));
+                    localStorage.setItem('vp_health', JSON.stringify(healthData));
+                }
+            }
+
+            applyProfile();
+            applyHealthData();
+            closeModal('editProfileModal');
+            showToast('✅ Profile saved successfully!');
+        }
+
+        // ── Apply profile to DOM
+        function applyProfile() {
+            document.getElementById('displayName').textContent = userProfile.name;
+            document.getElementById('displayEmail').textContent = userProfile.email || '—';
+            document.getElementById('displayPhone').textContent = userProfile.phone || '—';
+            document.getElementById('displayAge').textContent = userProfile.age || '—';
+            document.getElementById('displayGender').textContent = userProfile.gender || '—';
+            document.getElementById('displayLocation').textContent = userProfile.location || '—';
+            document.getElementById('displayWeight').textContent = userProfile.weight ? userProfile.weight + ' kg' : '—';
+            document.getElementById('displayHeight').textContent = userProfile.height ? userProfile.height + ' cm' : '—';
+            document.getElementById('displayMedical').textContent = userProfile.medical || 'None';
+
+            // Avatar
+            const sidebarImg = document.getElementById('sidebarAvatarImg');
+            const sidebarEmoji = document.getElementById('sidebarAvatarEmoji');
+            if (userProfile.avatarUrl) {
+                sidebarImg.src = userProfile.avatarUrl;
+                sidebarImg.style.display = 'block';
+                sidebarEmoji.style.display = 'none';
+            } else {
+                sidebarImg.style.display = 'none';
+                sidebarEmoji.style.display = 'block';
+            }
+        }
+
+        // ── Apply health data from BMI calculations
+        function applyHealthData() {
+            // BMI
+            const bmi = healthData.bmi || 25.5;
+            document.getElementById('bmiVal').textContent = bmi.toFixed(1);
+
+            // BMI category
+            let category = 'Normal', badgeClass = 'bmi-normal', bmiPct = 0;
+            if (bmi < 18.5) { category = 'Underweight'; badgeClass = 'bmi-underweight'; bmiPct = Math.round((bmi / 18.5) * 40); }
+            else if (bmi < 25) { category = 'Normal'; badgeClass = 'bmi-normal'; bmiPct = Math.round(40 + ((bmi - 18.5) / 6.5) * 30); }
+            else if (bmi < 30) { category = 'Overweight'; badgeClass = 'bmi-overweight'; bmiPct = Math.round(70 + ((bmi - 25) / 5) * 20); }
+            else { category = 'Obese'; badgeClass = 'bmi-obese'; bmiPct = Math.min(100, Math.round(90 + ((bmi - 30) / 10) * 10)); }
+
+            const bmiBadge = document.getElementById('bmiBadge');
+            bmiBadge.textContent = category;
+            bmiBadge.className = 'bmi-badge ' + badgeClass;
+            document.getElementById('bmiBar').style.width = bmiPct + '%';
+
+            // Body Goal
+            const goal = healthData.bodyGoal || 'Weight Loss';
+            document.getElementById('bodyGoalVal').textContent = goal;
+
+            const goalEmojis = { 'Weight Loss': '🔥 Burning fat', 'Muscle Gain': '💪 Building strength', 'Balance': '⚖️ Maintaining balance', 'Endurance': '🏃 Building stamina' };
+            document.getElementById('bodyGoalSub').textContent = goalEmojis[goal] || 'Active program';
+
+            const goalColors = {
+                'Weight Loss': 'linear-gradient(90deg,#ef4444,#f97316)',
+                'Muscle Gain': 'linear-gradient(90deg,#7c3aed,#a855f7)',
+                'Balance': 'linear-gradient(90deg,#06b6d4,#0e9488)',
+                'Endurance': 'linear-gradient(90deg,#f59e0b,#eab308)'
+            };
+            document.getElementById('goalBar').style.background = goalColors[goal] || goalColors['Balance'];
+            document.getElementById('goalBar').style.width = '65%';
+
+            // Calories
+            const cal = healthData.calories || 1847;
+            const calGoal = healthData.calorieGoal || settings.calorieGoal || 2200;
+            document.getElementById('caloriesVal').textContent = cal.toLocaleString();
+            document.getElementById('caloriesGoal').textContent = 'Goal: ' + calGoal.toLocaleString() + ' kcal';
+            document.getElementById('caloriesBar').style.width = Math.min(100, Math.round((cal / calGoal) * 100)) + '%';
+
+            // Water
+            const water = healthData.water || 6.5;
+            const wGoal = healthData.waterGoal || settings.waterGoal || 8;
+            document.getElementById('waterVal').textContent = water + 'L';
+            document.getElementById('waterGoal').textContent = 'Goal: ' + wGoal + 'L';
+            document.getElementById('waterBar').style.width = Math.min(100, Math.round((water / wGoal) * 100)) + '%';
+        }
+
+        // ── Settings
+        function loadSettingsUI() {
+            const toggleIds = ['darkToggle', 'compactToggle', 'pushToggle', 'emailToggle', 'reminderToggle', 'shareDataToggle'];
+            const settingKeys = ['darkMode', 'compactView', 'pushNotif', 'emailDigest', 'reminders', 'shareData'];
+            toggleIds.forEach((id, i) => {
+                const btn = document.getElementById(id);
+                if (btn) btn.classList.toggle('on', !!settings[settingKeys[i]]);
+            });
+            document.getElementById('calorieGoalInput').value = settings.calorieGoal || 2200;
+            document.getElementById('stepsGoalInput').value = settings.stepsGoal || 10000;
+            document.getElementById('waterGoalInput').value = settings.waterGoal || 8;
+            const langSel = document.getElementById('langSelect');
+            if (langSel) langSel.value = settings.language || 'English';
+        }
+
+        function toggleSetting(btn, key) {
+            btn.classList.toggle('on');
+            settings[key] = btn.classList.contains('on');
+        }
+
+        function saveSettings() {
+            settings.calorieGoal = parseInt(document.getElementById('calorieGoalInput').value) || 2200;
+            settings.stepsGoal = parseInt(document.getElementById('stepsGoalInput').value) || 10000;
+            settings.waterGoal = parseFloat(document.getElementById('waterGoalInput').value) || 8;
+            settings.language = document.getElementById('langSelect').value;
+
+            // Sync water goal to health data display
+            healthData.calorieGoal = settings.calorieGoal;
+            healthData.waterGoal = settings.waterGoal;
+
+            localStorage.setItem('vp_settings', JSON.stringify(settings));
+            localStorage.setItem('vp_health', JSON.stringify(healthData));
+
+            // Apply compact view
+            document.body.classList.toggle('compact', settings.compactView);
+
+            applyHealthData();
+            closeModal('settingsModal');
+            showToast('✅ Settings saved!');
+        }
+
+        // ── Upgrade
+        function handleUpgrade(plan) {
+            closeModal('subModal');
+            showToast(`🚀 Upgrading to VitaPulse ${plan}…`);
+        }
+
+        // ── Logout → go to home
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('vp_loggedIn');
+                showToast('👋 Logged out. Redirecting…');
+                setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+            }
+        }
+
+        // ── Avatar upload
+        function handleAvatarUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+                const url = ev.target.result;
+                userProfile.avatarUrl = url;
+
+                // Update edit modal preview
+                const editImg = document.getElementById('editAvatarImg');
+                editImg.src = url;
+                editImg.style.display = 'block';
+                document.getElementById('editAvatarEmoji').style.display = 'none';
+
+                showToast('✅ Photo updated! Save profile to apply.');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ── Logo upload
+        function handleLogoUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+                const url = ev.target.result;
+                const img = document.getElementById('logoImg');
+                img.src = url;
+                document.getElementById('logoArea').classList.add('has-img');
+                const prevImg = document.getElementById('logoPreviewImg');
+                prevImg.src = url;
+                prevImg.style.display = 'block';
+                showToast('✅ Logo updated!');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ── Toast
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._t);
+            t._t = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // ── Initialize dashboard
+        function init() {
+            // Check if user is logged in (for integration with index.html)
+            // If vp_loggedIn is not set, redirect to home
+            // Uncomment these lines when integrating with the login system:
+            // if (!localStorage.getItem('vp_loggedIn')) {
+            //     window.location.href = 'index.html';
+            //     return;
+            // }
+
+            // Load health data that might be set by BMI calculator
+            const savedHealth = localStorage.getItem('vp_health');
+            if (savedHealth) healthData = JSON.parse(savedHealth);
+
+            applyProfile();
+            applyHealthData();
+            renderNotifications();
+            loadSettingsUI();
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
