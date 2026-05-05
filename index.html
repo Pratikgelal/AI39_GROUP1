@@ -1061,11 +1061,8 @@
             <input type="text" placeholder="Search...">
         </div>
 
-        <div class="nav-actions">
-            <a href="login.html" class="btn-login">
-                <i class="fa-regular fa-user"></i> Login
-            </a>
-            <a href="register.html" class="btn-register">Register</a>
+        <div class="nav-actions" id="navActions">
+            <!-- Populated by JS based on login state -->
         </div>
     </nav>
 
@@ -1582,6 +1579,48 @@
     </a>
 
     <script src="script.js"></script>
+
+    <script>
+        /* ==========================================
+           AUTH-AWARE NAVBAR
+           Shows Login/Register when logged out,
+           Shows profile avatar + Dashboard link when logged in
+           ========================================== */
+        (function() {
+            const isLoggedIn = localStorage.getItem('vp_loggedIn') === 'true';
+            const navActions = document.getElementById('navActions');
+
+            if (isLoggedIn) {
+                const profile = JSON.parse(localStorage.getItem('vp_profile') || '{}');
+                const name = profile.name || 'My Account';
+                const avatarUrl = profile.avatarUrl || '';
+
+                navActions.innerHTML = `
+                    <a href="dashboard.html" class="btn-login" style="gap:8px;text-decoration:none">
+                        <span style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:12px;overflow:hidden;flex-shrink:0;">
+                            ${avatarUrl ? `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">` : '👤'}
+                        </span>
+                        Dashboard
+                    </a>
+                    <button class="btn-login" style="border:2px solid #ef4444;color:#ef4444;" onclick="handleLogout()">Logout</button>
+                `;
+            } else {
+                navActions.innerHTML = `
+                    <a href="login.html" class="btn-login">
+                        <i class="fa-regular fa-user"></i> Login
+                    </a>
+                    <a href="register.html" class="btn-register">Register</a>
+                `;
+            }
+
+            window.handleLogout = function() {
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem('vp_loggedIn');
+                    location.reload();
+                }
+            };
+        })();
+    </script>
 
     <script>
         /* ==========================================
